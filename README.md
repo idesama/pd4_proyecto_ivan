@@ -21,9 +21,7 @@ Aplicacion para llevar la gestion de entradas y salidas de empleados para empres
 
 ## 🖥️ Tecnologías Utilizadas
 - Python
-- Frameworks
-- Librerías
-- Dependencias importantes
+
 
 ---
 
