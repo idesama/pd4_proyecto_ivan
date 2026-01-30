@@ -19,6 +19,7 @@ def init_menu(
     acceso = False
     while intentos < 3:
         print("--- Sistema de Gestión de Fichajes ---")
+        print('pruebas: admin - 1234')
         username = input('Ingrese su usuario: ')
         password = input('Ingrese su contraseña: ')
         login_request = LoginRequest(username, password)
