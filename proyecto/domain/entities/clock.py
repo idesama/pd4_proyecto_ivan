@@ -1,5 +1,5 @@
 from datetime import datetime
-from TypeClock import TYPE_CLOCK
+from domain.entities.type_clock import TYPE_CLOCK
 from uuid import uuid4 
 
 class Clock:

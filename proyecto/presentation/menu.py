@@ -1,13 +1,13 @@
 # handlers
-from application.LoginHandler import LoginHandler
+from application.login_handler import LoginHandler
 from application.add_user_handler import AddUserHandler
 from application.get_user_handler import GetUserHandler
 # dtos
 from application.dto.login_request import LoginRequest
 from application.dto.add_user_request import AddUserRequest
 # entidades
-from domain.entities.User import User
-from domain.entities.UserRol import USER_ROL
+from domain.entities.user import User
+from domain.entities.user_rol import USER_ROL
 
 
 def init_menu(

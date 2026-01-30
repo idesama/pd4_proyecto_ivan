@@ -1,5 +1,5 @@
-from infrastructure.UserRepository import UserRepository
-from application.LoginHandler import LoginHandler   
+from infrastructure.user_repository import UserRepository
+from application.login_handler import LoginHandler   
 from application.add_user_handler import AddUserHandler
 from application.get_user_handler import GetUserHandler
 from presentation.menu import init_menu

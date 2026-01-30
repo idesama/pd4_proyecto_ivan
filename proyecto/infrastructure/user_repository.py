@@ -1,5 +1,5 @@
 from domain.repository.IUserRepository import IUserRepository
-from infrastructure.DB import DB
+from infrastructure.db import DB
 
 class UserRepository(IUserRepository):
     

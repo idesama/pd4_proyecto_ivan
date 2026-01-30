@@ -1,5 +1,5 @@
-from domain.entities.User import User   
-from domain.entities.UserRol import USER_ROL   
+from domain.entities.user import User   
+from domain.entities.user_rol import USER_ROL   
 from uuid import uuid4
 
 class DB:

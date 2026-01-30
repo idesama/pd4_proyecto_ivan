@@ -1,5 +1,5 @@
 from uuid import uuid4
-from domain.entities.User import User
+from domain.entities.user import User
 
 class UserService:
     def create_user(self, username, password, rol):
