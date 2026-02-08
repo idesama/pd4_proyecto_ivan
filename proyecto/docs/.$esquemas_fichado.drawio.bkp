@@ -1,0 +1,85 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.2.5 Chrome/138.0.7204.251 Electron/37.6.1 Safari/537.36" version="28.2.5">
+  <diagram name="Página-1" id="p6P2Jl0fd0QxxyNCWhtA">
+    <mxGraphModel dx="872" dy="531" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="lXTyxZSIuUzaXrPrsiCl-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="lXTyxZSIuUzaXrPrsiCl-1" target="lXTyxZSIuUzaXrPrsiCl-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lXTyxZSIuUzaXrPrsiCl-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="lXTyxZSIuUzaXrPrsiCl-1" target="lXTyxZSIuUzaXrPrsiCl-6">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="280" y="115" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lXTyxZSIuUzaXrPrsiCl-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="lXTyxZSIuUzaXrPrsiCl-1" target="lXTyxZSIuUzaXrPrsiCl-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lXTyxZSIuUzaXrPrsiCl-14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="lXTyxZSIuUzaXrPrsiCl-1" target="lXTyxZSIuUzaXrPrsiCl-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="239.9999999999999" y="350" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="240" y="310" />
+              <mxPoint x="240" y="310" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lXTyxZSIuUzaXrPrsiCl-21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="lXTyxZSIuUzaXrPrsiCl-1" target="lXTyxZSIuUzaXrPrsiCl-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lXTyxZSIuUzaXrPrsiCl-1" value="solicitud" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" vertex="1" parent="1">
+          <mxGeometry x="180" y="210" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="lXTyxZSIuUzaXrPrsiCl-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="lXTyxZSIuUzaXrPrsiCl-2" target="lXTyxZSIuUzaXrPrsiCl-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lXTyxZSIuUzaXrPrsiCl-2" value="solicitud de fichaje" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" vertex="1" parent="1">
+          <mxGeometry x="40" y="290" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="lXTyxZSIuUzaXrPrsiCl-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="lXTyxZSIuUzaXrPrsiCl-4" target="lXTyxZSIuUzaXrPrsiCl-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="330" y="410" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lXTyxZSIuUzaXrPrsiCl-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="lXTyxZSIuUzaXrPrsiCl-4" target="lXTyxZSIuUzaXrPrsiCl-18">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="390" y="390" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lXTyxZSIuUzaXrPrsiCl-4" value="solicitud corrección" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6a00ff;fontColor=#ffffff;strokeColor=#3700CC;" vertex="1" parent="1">
+          <mxGeometry x="180" y="370" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="lXTyxZSIuUzaXrPrsiCl-6" value="id" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="200" y="100" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="lXTyxZSIuUzaXrPrsiCl-9" value="id_user" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="140" y="130" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="lXTyxZSIuUzaXrPrsiCl-11" value="fichaje" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="80" y="390" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lXTyxZSIuUzaXrPrsiCl-16" value="fichaje&lt;div&gt;a corregir&lt;/div&gt;" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="300" y="490" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="lXTyxZSIuUzaXrPrsiCl-18" value="nuevo fichaje" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="360" y="440" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="lXTyxZSIuUzaXrPrsiCl-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="lXTyxZSIuUzaXrPrsiCl-20" target="lXTyxZSIuUzaXrPrsiCl-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lXTyxZSIuUzaXrPrsiCl-20" value="solicitud de actualizar datos de usuario" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="319" y="280" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="lXTyxZSIuUzaXrPrsiCl-22" value="datos a actualizar" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="449" y="350" width="60" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

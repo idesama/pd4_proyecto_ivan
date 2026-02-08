@@ -2,18 +2,25 @@
 from application.login_handler import LoginHandler
 from application.add_user_handler import AddUserHandler
 from application.get_user_handler import GetUserHandler
+from application.add_clock_handler import AddClockHandler
+from application.get_user_clocks_handler import GetUserClockHandler
 # dtos
 from application.dto.login_request import LoginRequest
 from application.dto.add_user_request import AddUserRequest
+from application.dto.clock_request import ClockRequest
 # entidades
 from domain.entities.user import User
 from domain.entities.user_rol import USER_ROL
+# others
+from domain.entities.type_clock import TYPE_CLOCK
 
 
 def init_menu(
         login_handler: LoginHandler,
         add_user_handler: AddUserHandler,
-        get_user_handler: GetUserHandler
+        get_user_handler: GetUserHandler,
+        add_clock_handler: AddClockHandler,
+        get_user_clocks_handler: GetUserClockHandler
 ):
     intentos = 0
     acceso = False
@@ -72,8 +79,31 @@ def init_menu(
                 elif opcion == 3:
                     salir = True
                     print('Sesión cerrada.') 
+
+                elif opcion == 4:
+                    #TODO fichar entrada
+                    request = ClockRequest(
+                        user.id,
+                        TYPE_CLOCK.IN.value 
+                    )
+                    result = add_clock_handler.run(request)     
+                    if not result :     
+                        print("Operación fallida.")     
+                    print("Fichaje realizado.")
+                elif opcion == 5:
+                    #TODO listar fichajes
+                    result = get_user_clocks_handler.run(user.id)
+                    print(result[0].date)
+
+                    
+
+
+
                 else:
                     print('Operacion no valida')
+
+                
+        
 
         else:
             intentos += 1

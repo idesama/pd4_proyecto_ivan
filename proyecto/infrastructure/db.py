@@ -13,7 +13,7 @@ class DB:
     def __init__(self):
         # Esto solo se ejecuta la primera vez si lo controlas
         if not hasattr(self, "initialized"):
-            admin = User(uuid4(), "admin", "1234", USER_ROL.ADMIN.value)
+            admin = User('6d976e5f-85ab-4bce-8c0f-aa9270eaa308', "admin", "1234", USER_ROL.ADMIN.value)
             self.users = {admin.username: admin}
-            self.clocks = {}
+            self.clocks = {'6d976e5f-85ab-4bce-8c0f-aa9270eaa308': []}
             self.initialized = True
