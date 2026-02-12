@@ -1,11 +1,15 @@
-from domain.entities.user_rol import USER_ROL
+from domain.entities.base_entity import IBaseEntity
+from dataclasses import dataclass, asdict
+from domain.constants.user_rol import USER_ROL
 from uuid import uuid4 
-class User:
-    def __init__(self, id:uuid4, username: str, password: str, rol: USER_ROL):
-        self.id = id
-        self.username = username
-        self.password = password
-        self.rol = rol
-        self.active = True
-        self.clocks = {}
 
+@dataclass
+class User(IBaseEntity):
+    username:str
+    password:str
+    rol:USER_ROL
+    active:bool
+    clocks:dict
+
+    def get_dto(self):
+        return asdict(self)

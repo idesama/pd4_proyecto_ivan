@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
 @dataclass
-class ClockRequest:
+class CreateClockCommand:
     id: str
     clock: int

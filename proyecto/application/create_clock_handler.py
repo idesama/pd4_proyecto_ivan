@@ -1,6 +1,5 @@
-from application.dto.clock_request import ClockRequest
+from application.commands.create_clock_command import CreateClockCommand
 from domain.repository.IClockRepository import IClockRepository
-from domain.entities.type_clock import TYPE_CLOCK
 from domain.entities.clock import Clock
 from uuid import uuid4
 from datetime import datetime, timezone
@@ -11,19 +10,19 @@ class AddClockHandler():
     def __init__(self,  repo:IClockRepository):
         self._repo = repo
 
-    def run(self, request:ClockRequest):
+    def run(self, command:CreateClockCommand):
         now = datetime.now(timezone.utc)
         clock = Clock(
             uuid4(),
-            request.id,
+            command.id,
             now,
-            request.clock
+            command.clock
         )
 
-        user_clocks = self._repo.get_clocks_by_user(request.id)
+        user_clocks = self._repo.get_clocks_by_user(command.id)
 
         if user_clocks is None:
-            result = self._repo.create_clocks(request.id)
+            result = self._repo.create_clocks(command.id)
 
         result = self._repo.add_clock(clock)
         return result

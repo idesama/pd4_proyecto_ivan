@@ -1,4 +1,4 @@
 from enum import Enum
 class USER_ROL(Enum):
-    ADMIN = "Admin"
-    USER = "User"
+    ADMIN = 1
+    USER = 2

@@ -4,9 +4,9 @@ from infrastructure.user_repository import UserRepository
 from infrastructure.clock_repository import ClockRepository
 # handlers
 from application.login_handler import LoginHandler   
-from application.add_user_handler import AddUserHandler
+from application.create_user_handler import AddUserHandler
 from application.get_user_handler import GetUserHandler
-from application.add_clock_handler import AddClockHandler
+from application.create_clock_handler import AddClockHandler
 from application.get_user_clocks_handler import GetUserClockHandler
 
 def main(): 

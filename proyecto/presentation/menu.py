@@ -1,18 +1,16 @@
 # handlers
 from application.login_handler import LoginHandler
-from application.add_user_handler import AddUserHandler
+from application.create_user_handler import AddUserHandler
 from application.get_user_handler import GetUserHandler
-from application.add_clock_handler import AddClockHandler
+from application.create_clock_handler import AddClockHandler
 from application.get_user_clocks_handler import GetUserClockHandler
-# dtos
-from application.dto.login_request import LoginRequest
-from application.dto.add_user_request import AddUserRequest
-from application.dto.clock_request import ClockRequest
-# entidades
-from domain.entities.user import User
-from domain.entities.user_rol import USER_ROL
+# commands
+from application.commands.login_command import LoginCommand
+from application.commands.create_user_command import CreateUserCommand
+from application.commands.create_clock_command import CreateClockCommand
 # others
-from domain.entities.type_clock import TYPE_CLOCK
+from domain.constants.type_clock import TYPE_CLOCK
+
 
 
 def init_menu(
@@ -29,16 +27,17 @@ def init_menu(
         print('pruebas: admin - 1234')
         username = input('Ingrese su usuario: ')
         password = input('Ingrese su contraseña: ')
-        login_request = LoginRequest(username, password)
+        login_request = LoginCommand(username, password)
         acceso = login_handler.run(login_request)
 
         if acceso is not None:
 
             salir = False
-            user: User = get_user_handler.run(username)
+            user = get_user_handler.run(username)
+            user = user.get_dto()
             while not salir:
 
-                if user.rol ==  USER_ROL.ADMIN.value:
+                if user['rol'] == 1:
                     print('1. Añadir nuevo usuario')
                     print('2. Buscar usuario')
                     print('3. Salir')
@@ -51,48 +50,45 @@ def init_menu(
                     print('La opcion introducida no es válida, vuelve a intentarlo.')
                     continue
                 
-                if opcion == 1 and user.rol == USER_ROL.ADMIN.value:
+                if opcion == 1 and user['rol'] == 1:
                     user_name = input('Introduce el nombre: ')
                     password = input('Introduce la contraseña: ')
                     print('Introduce el rol (1 para administrador) (2 para usuario):')
                     print('(1/2)')
-                    rol = input('')
-                    request = AddUserRequest(
+                    rol = int(input(''))
+                    command = CreateUserCommand(
                         user_name,
                         password,
                         rol
                     )
-                    result =  add_user_handler.run(request)
+                    result =  add_user_handler.run(command)
                     if result:
                         print('Usuario registrado correctamente.')
-                elif opcion == 2 and user.rol == USER_ROL.ADMIN.value:
+                elif opcion == 2 and user['rol'] == 1:
                     username = input('Introduce el nombre: ')
-                    result = get_user_handler.run(username)
-                    
-                    if result is None:
+                    search_user = get_user_handler.run(username)
+                
+                    if search_user is None:
                         print('Usuario no encontrado.')
                     else:
-                        search_user: User = result 
-                        print(f'Id: {search_user.id}')
-                        print(f'Nombre: {search_user.username}')
-                        print(f'Rol: {search_user.rol}')
+                        print(search_user.get_dto())
                 elif opcion == 3:
                     salir = True
                     print('Sesión cerrada.') 
 
                 elif opcion == 4:
                     #TODO fichar entrada
-                    request = ClockRequest(
-                        user.id,
+                    command = CreateClockCommand(
+                        user['id'],
                         TYPE_CLOCK.IN.value 
                     )
-                    result = add_clock_handler.run(request)     
+                    result = add_clock_handler.run(command)     
                     if not result :     
                         print("Operación fallida.")     
                     print("Fichaje realizado.")
                 elif opcion == 5:
                     #TODO listar fichajes
-                    result = get_user_clocks_handler.run(user.id)
+                    result = get_user_clocks_handler.run(user['id'])
                     print(result[0].date)
 
                     
