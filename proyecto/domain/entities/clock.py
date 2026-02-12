@@ -1,5 +1,5 @@
 from domain.entities.base_entity import IBaseEntity
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 from datetime import datetime
 from domain.constants.type_clock import TYPE_CLOCK
 
@@ -10,5 +10,3 @@ class Clock(IBaseEntity):
     date:datetime
     type:TYPE_CLOCK
 
-    def get_dto(self):
-        return asdict(self)

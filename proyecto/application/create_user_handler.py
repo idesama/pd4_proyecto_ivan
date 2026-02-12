@@ -24,7 +24,10 @@ class AddUserHandler():
             id = str(uuid4()),
             username = command.user_name,
             password = command.password,
-            rol= rol)
+            rol= rol,
+            active= True,
+            clocks= {}
+            )
 
         result = self._repo.add_user(user)
         

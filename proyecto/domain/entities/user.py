@@ -1,7 +1,7 @@
 from domain.entities.base_entity import IBaseEntity
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 from domain.constants.user_rol import USER_ROL
-from uuid import uuid4 
+
 
 @dataclass
 class User(IBaseEntity):
@@ -11,5 +11,3 @@ class User(IBaseEntity):
     active:bool
     clocks:dict
 
-    def get_dto(self):
-        return asdict(self)
