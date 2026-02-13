@@ -40,9 +40,13 @@ def init_menu(
                 if user['rol'] == 1:
                     print('1. Añadir nuevo usuario')
                     print('2. Buscar usuario')
-                    print('3. Salir')
+                    print('3. para fichar entrada')
+                    print('4. para mostrar fichajes')
+                    print('0. Salir')
                 else:
-                    print('3. Salir')
+                    print('3. para fichar entrada')
+                    print('4. para mostrar fichajes')
+                    print('0. Salir')
 
                 try:
                     opcion = int(input('Introduce la opcion: '))
@@ -72,11 +76,9 @@ def init_menu(
                         print('Usuario no encontrado.')
                     else:
                         print(search_user.get_dto())
-                elif opcion == 3:
-                    salir = True
-                    print('Sesión cerrada.') 
 
-                elif opcion == 4:
+
+                elif opcion == 3:
                     #TODO fichar entrada
                     command = CreateClockCommand(
                         user['id'],
@@ -86,14 +88,14 @@ def init_menu(
                     if not result :     
                         print("Operación fallida.")     
                     print("Fichaje realizado.")
-                elif opcion == 5:
+                elif opcion == 4:
                     #TODO listar fichajes
                     result = get_user_clocks_handler.run(user['id'])
-                    print(result[0].date)
-
-                    
-
-
+                    dtos = [e.get_dto() for e in result]
+                    print(dtos)
+                elif opcion == 0:
+                    salir = True
+                    print('Sesión cerrada.') 
 
                 else:
                     print('Operacion no valida')

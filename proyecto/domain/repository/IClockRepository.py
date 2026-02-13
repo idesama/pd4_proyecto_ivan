@@ -8,7 +8,7 @@ class IClockRepository(ABC):
         pass
 
     @abstractmethod
-    def get_clocks_by_user(self, user_id):
+    def get_clocks_by_user(self, user_id)->list[Clock]:
         pass
 
     @abstractmethod
