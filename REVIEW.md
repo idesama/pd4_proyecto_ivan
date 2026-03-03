@@ -1,5 +1,150 @@
 # REVISIONES
 
+## REVISIÓN FASE 01 - 2026-03-03 — Nota: 7,5/10
+
+### LO QUE ESTÁ BIEN
+
+La estructura del proyecto está bien pensada y organizada. Tienes las cuatro capas correctas (`domain`, `application`, `infrastructure`, `presentation`) y las responsabilidades de cada capa son, en general, correctas.
+
+Además, aplicas varios **patrones de diseño avanzados** que van más allá de lo solicitado para el proyecto,
+
+- **Patrón Singleton** en `infrastructure/db.py`: implementado correctamente con `__new__` y la comprobación `hasattr(self, 'is_initialized')`. Garantiza que todos los repositorios comparten la misma instancia de datos en memoria.
+- **Patrón Command** en `application/commands/`: los comandos encapsulan los datos de entrada de cada caso de uso.
+- **Patrón Repository** con interfaces abstractas (`ABC`): defines contratos en `domain/repository/` e implementas en `infrastructure/`. Aunque no lo hemos visto es una buena práctica.
+- **Inyección de dependencias** manual en `main.py`: cada handler recibe su repositorio por parámetro. 
+
+
+### Seguimiento de revisiones anteriores (2026-02-03 y 2026-02-25)
+
+- [ ] **La presentación no debe importar del dominio** — `menu.py` sigue importando `TYPE_CLOCK` desde `domain` (`presentation/menu.py:12`). Sin cambios.
+- [ ] **La presentación debe limitarse a mostrar/pedir datos** — el menú sigue aplicando la lógica de permisos por rol (`presentation/menu.py:40, 57, 71`). Sin cambios.
+- [ ] **Las reglas de negocio no pertenecen a la capa de aplicación** — la validación de contraseña sigue en `login_handler.py:13` y la política de asignación de rol sigue en `create_user_handler.py:21`. Sin cambios.
+- [ ] **Herencia entre entidades propias del dominio** — `IBaseEntity` y `RequestBase` existen como base técnica pero sin jerarquía de negocio real (`Empleado`/`Administrador`, `FichajeEntrada`/`FichajeSalida`). Sin cambios.
+- [ ] **Una única fuente de verdad para la relación User-Clock** — `User.clocks` y `DB.clocks` siguen coexistiendo. Sin cambios.
+- [ ] **Integración real de las nuevas entidades en el flujo** — `ClockInRequest`, `ClockCorrectionRequest`, `RequestBase`, `UserService`, `ClockService` y `GetUserClocksRequest` siguen sin conectarse al flujo principal. Sin cambios.
+- [ ] **Consistencia del contrato interfaz/implementación** — `AddClockHandler` sigue pasando `user_id: str` a `create_clocks`, que espera un objeto `Clock`. Sin cambios. (Ver Bugs en sección siguiente.)
+- [ ] **Comportamiento funcional correcto** — los dos bugs de 2026-02-25 siguen presentes: rol siempre asignado como `USER` y `AttributeError` al fichar sin lista previa. Sin cambios. (Ver Bugs en sección siguiente.)
+- [ ] **Contraseñas en texto plano** — sin hash. Sin cambios.
+
+### LO QUE HAY QUE CORREGIR
+
+#### Bugs funcionales (bloqueantes)
+
+Hay dos bugs que hacen que la aplicación no funcione correctamente:
+
+**Bug 1 — Error al crear usuarios: el rol siempre se asigna como `USER`**
+
+En `application/create_user_handler.py`, la comparación del rol compara un `int` con un `str`:
+
+```python
+rol = USER_ROL.ADMIN.value if command.rol == '1' else USER_ROL.USER.value
+```
+
+`command.rol` llega como `int` (p. ej. `1`), pero se compara con el string `'1'`. La condición nunca es `True`, así que cualquier usuario que se crea acaba teniendo rol `USER` aunque hayas introducido `1`.
+
+**Cómo arreglarlo:** cambia la comparación a `command.rol == 1` (sin comillas).
+
+**Bug 2 — Error al fichar si el usuario no tiene fichajes previos: `AttributeError`**
+
+En `application/create_clock_handler.py:25`, cuando el usuario no tiene lista de fichajes, llamas a:
+
+```python
+result = self._repo.create_clocks(command.id)  # command.id es un str (user_id)
+```
+
+Pero en `infrastructure/clock_repository.py`, `create_clocks` espera un objeto `Clock` y accede a `.id_user`:
+
+```python
+def create_clocks(self, clock: Clock):
+    self.conection_db.clocks[str(clock.id_user)] = []  # AttributeError: 'str' has no attribute 'id_user'
+```
+
+La interfaz `IClockRepository.create_clocks` también declara el parámetro como `Clock`, pero en realidad se usa para inicializar la lista con un `user_id`.
+
+**Cómo arreglarlo:** cambia el contrato y la implementación para que el parámetro sea `user_id: str`. Tanto la interfaz en `domain/repository/IClockRepository.py` como la implementación en `infrastructure/clock_repository.py` deben usar `user_id`:
+
+```python
+# En la interfaz:
+@abstractmethod
+def create_user_clocks(self, user_id):
+    pass
+
+# En la implementación:
+def create_user_clocks(self, user_id):
+    self.conection_db.clocks[user_id] = []
+```
+
+Y actualiza la llamada en `create_clock_handler.py`.
+
+#### Separación de capas
+
+Estos problemas ya se señalaron en la revisión de 2026-02-25 y siguen sin corregirse:
+
+- **`presentation/menu.py:12`** importa `TYPE_CLOCK` desde `domain`. La presentación no debe importar del dominio directamente; debería recibir los datos ya procesados desde la capa de aplicación.
+- **`presentation/menu.py:40, 57, 71`** aplica lógica de permisos por rol directamente en el menú. Esta lógica pertenece al dominio o a la aplicación.
+- **`application/login_handler.py:13`** valida la contraseña en la capa de aplicación. La regla "la contraseña debe coincidir" es una regla de negocio del dominio.
+
+#### Código sin usar
+
+Hay clases definidas pero que no se usan: `RequestBase`, `ClockInRequest`, `ClockCorrectionRequest`, `UserService`, `ClockService`, `GetUserClocksRequest`. Si no las vas a conectar al flujo principal, mejor eliminarlas para no generar confusión o añade un comentario `# TODO:` explicando qué falta.
+
+
+## REVISIÓN FASE 02 - 2026-03-03 — Nota: 7/10
+
+### LO QUE ESTÁ BIEN
+
+La carpeta `docs/` está completa: tienes los 12 documentos requeridos, incluyendo `ARQUITECTURA_POR_CAPAS.md`, `CASOS_DE_USO.md`, `REGLAS_DE_NEGOCIO.md`, `MODELO_DE_DOMINIO.md`, `CONTRATO_REPOSITORIO.md`, `DATOS_INICIALES.md`, `EJECUCION.md`, `TESTS_Y_PASOS.md` y `TROUBLESHOOTING.md`. Buen trabajo.
+
+
+### Seguimiento de revisión anterior (2026-02-25)
+
+- [ ] **README.md de la raíz** — sigue incompleto: comandos no reproducibles, "Geolocaliza el fichaje" sigue declarado pero no implementado. Sin cambios.
+- [ ] **CHANGELOG** — sigue en versión `0.1.0`. Sin añadir la entrada `0.2.0` de documentación. Sin cambios.
+- [ ] **Nomenclatura** — ningún nombre de la lista de la revisión anterior ha sido actualizado. Sin cambios.
+
+
+### LO QUE HAY QUE CORREGIR
+
+#### Docstrings incompletos
+
+Los docstrings solo están presentes en `UserService` y `ClockService`. Faltan en:
+
+- Todos los handlers (`LoginHandler`, `AddUserHandler`, `GetUserHandler`, `AddClockHandler`, `GetUserClockHandler`) — sus métodos `run()` deben tener docstring.
+- Los repositorios (`UserRepository`, `ClockRepository`) — todos sus métodos deben tener docstring.
+- Las entidades (`User`, `Clock`, `IBaseEntity`) — las clases deben tener docstring de clase.
+- Los comandos — las clases deben tener docstring.
+
+#### CHANGELOG no actualizado
+
+`docs/CHANGELOG.md` solo tiene la versión `0.1.0`. Para la Fase 02 debes añadir una entrada `0.2.0` que liste los cambios de documentación que has añadido.
+
+#### README.md de la raíz incompleto
+
+El `README.md` de la raíz del repositorio tiene varios problemas:
+
+- Las instrucciones de ejecución dicen "ejecutar archivo main como entry point" — esto no es reproducible. Debe ser un comando exacto como `python proyecto/main.py`.
+- Declara una funcionalidad que no existe: "Geolocaliza el fichaje" (`README.md:16`), pero `docs/DESCRIPCION_Y_ALCANCE.md` la excluye explícitamente del alcance.
+
+#### Nomenclatura: pendiente de corregirse
+
+Ya se listaron en la revisión anterior (2026-02-25). Siguen pendientes todos los puntos de esa lista. Repasa los nombres en:
+
+- Los comandos: `id` → `user_id`, `clock` → `clock_type`
+- Las entidades: `USER_ROL` → `UserRole`, `TYPE_CLOCK` → `TypeClock`, `Clock.id_user` → `user_id`, `Clock.type` → `clock_type`, `User.rol` → `role`, `User.active` → `is_active`
+- Infraestructura: `conection_db` → `connection_db` (error ortográfico), `DB` → `InMemoryDB`, `initialized` → `is_initialized`
+- Presentación: `init_menu` → `run_menu`, `acceso` → `is_authenticated`, `salir` → `should_exit`, `opcion` → `menu_option`
+
+
+
+## REVISIÓN FASE 03 - 2026-03-03 — Nota: 0/10
+
+La carpeta `tests/` solo tiene un `__init__.py` vacío. No hay ningún test implementado. Para completar la Fase 03 necesitas:
+
+1. Crear tests con `unittest` para al menos una clase del dominio (por ejemplo, testear que `AddClockHandler` crea un fichaje correctamente).
+2. Crear un `requirements.txt` con `coverage` como dependencia.
+3. Verificar que `docs/TESTS_Y_PASOS.md` describe cómo ejecutar los tests y obtener el informe de cobertura con comandos reales.
+
+
 ## REVISIÓN FASE 03 - 2026-02-25
 
 - Sin implementar
@@ -78,10 +223,6 @@
 - [ ] **Aplicación de herencia entre entidades**  
   Estado: **Parcial**.  
   Evidencia: existe base técnica (`IBaseEntity`, `RequestBase`), pero no hay jerarquía de negocio aplicada para roles o tipos de fichaje en uso real.
-
-- [ ] **Encapsulación en atributos del usuario**  
-  Estado: **No cumple**.  
-  Evidencia: `domain/entities/user.py` mantiene atributos públicos de dataclass sin invariantes de dominio.
 
 - [ ] **Una única fuente de verdad para relación User-Clock**  
   Estado: **No cumple**.  
