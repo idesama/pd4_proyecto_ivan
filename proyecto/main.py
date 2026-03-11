@@ -4,6 +4,7 @@ from infrastructure.user_repository import UserRepository
 from infrastructure.clock_repository import ClockRepository
 # domain services
 from domain.user_service import UserService
+from domain.clock_service import ClockService
 # handlers
 from application.login_handler import LoginHandler   
 from application.create_user_handler import AddUserHandler
@@ -15,16 +16,17 @@ def main():
     
     # instancio los repos
     user_repository = UserRepository()
+    clock_repository = ClockRepository()
     
     # instancio los servicios de dominio
     user_service = UserService(user_repository)
-    
+    clock_service = ClockService(clock_repository)
 
-    # instancio los handlers con sus respectivos repos
+    # instancio los handlers con sus respectivos repos y servicios de dominio
     login_handler = LoginHandler(UserRepository())
     add_user_handler = AddUserHandler(user_repository, user_service)
     get_user_handler = GetUserHandler(UserRepository())
-    add_clock_handler = AddClockHandler(ClockRepository())
+    add_clock_handler = AddClockHandler(clock_repository, clock_service)
     get_user_clocks_handler = GetUserClockHandler(ClockRepository())
     
     # los inyecto desde aquí al menu

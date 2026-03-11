@@ -18,7 +18,7 @@ class UserService:
         if user is not None:
             raise ValueError("Ya existe el usuario en la base de datos")
 
-        id = uuid4()
+        id = str(uuid4())
         # aunque el usurio no metiera un valor correcto para el rol
         # se le asignaria el rol mas básico de usuario para agilizar
         rol = USER_ROL.ADMIN.value if rol == '1' else USER_ROL.USER.value
