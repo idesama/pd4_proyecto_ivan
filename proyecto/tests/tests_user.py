@@ -4,12 +4,13 @@ from application.create_user_handler import AddUserHandler
 from application.get_user_handler import GetUserHandler
 from application.commands.create_user_command import CreateUserCommand
 from domain.user_service import UserService
+from infrastructure.db_tests import DBTests
 
 
 class TestsUser(unittest.TestCase):
 
     def test_add_user_succes(self):
-        user_repository = UserRepository()
+        user_repository = UserRepository(DBTests())
         user_service = UserService(user_repository)
         handler = AddUserHandler(user_repository, user_service)
         command = CreateUserCommand(
@@ -22,7 +23,7 @@ class TestsUser(unittest.TestCase):
 
 
     def test_add_user_error(self):
-        user_repository = UserRepository()
+        user_repository = UserRepository(DBTests())
         user_service = UserService(user_repository)
         handler = AddUserHandler(user_repository, user_service)
         command1 = CreateUserCommand(
@@ -44,13 +45,13 @@ class TestsUser(unittest.TestCase):
 
 
     def test_get_user_by_username_succes(self):
-        user_repository = UserRepository()
+        user_repository = UserRepository(DBTests())
         user_service = UserService(user_repository)
 
         add_user_handler = AddUserHandler(user_repository, user_service)
         get_user_handler = GetUserHandler(user_repository)
 
-        username = 'Ana'
+        username = 'Abian'
 
         command = CreateUserCommand(
             username,
@@ -65,9 +66,9 @@ class TestsUser(unittest.TestCase):
 
 
     def test_create_user_without_rol(self):
-        user_service = UserService(UserRepository())
+        user_service = UserService(UserRepository(DBTests()))
         user = user_service.create_user(
-            'Pepe',
+            'Abian',
             '0000'  ,
             None   
         )
