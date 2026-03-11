@@ -1,16 +1,17 @@
 # Documentación del proyecto
 
-Esta carpeta contiene la documentación técnica y de usuario para el proyecto `Fichado`.
+Este directorio contiene toda la documentación técnica y de uso del sistema de fichajes.
+Cada documento describe un aspecto del proyecto: arquitectura, casos de uso, reglas de negocio, ejecución, modelo de dominio, repositorios, datos iniciales, pruebas y solución de problemas.
 
-Archivos incluidos (resumen):
-- `CHANGELOG.md` — historial de versiones.
-- `DESCRIPCION_Y_ALCANCE.md` — qué hace el proyecto y límites.
-- `EJECUCION.md` — cómo ejecutar y requisitos.
-- `ARQUITECTURA_POR_CAPAS.md` — explicación de capas y principales componentes.
-- `CASOS_DE_USO.md` — flujos de usuario (login, crear usuario, fichar, listar fichajes).
-- `REGLAS_DE_NEGOCIO.md` — reglas importantes y restricciones.
-- `MODELO_DE_DOMINIO.md` — entidades y sus atributos.
-- `CONTRATO_REPOSITORIO.md` — interfaces públicas esperadas por los repositorios.
-- `DATOS_INICIALES.md` — datos que vienen por defecto en la DB en memoria.
-- `TESTS_Y_PASOS.md` — cómo probar manual y recomendaciones para tests automatizados.
-- `TROUBLESHOOTING.md` — errores comunes y soluciones.
+Archivos importantes:
+- `DESCRIPCION_Y_ALCANCE.md`
+- `EJECUCION.md`
+- `ARQUITECTURA_POR_CAPAS.md`
+- `CASOS_DE_USO.md`
+- `REGLAS_DE_NEGOCIO.md`
+- `MODELO_DE_DOMINIO.md`
+- `CONTRATO_REPOSITORIO.md`
+- `DATOS_INICIALES.md`
+- `TESTS_Y_PASOS.md`
+- `TROUBLESHOOTING.md`
+- `CHANGELOG.md`

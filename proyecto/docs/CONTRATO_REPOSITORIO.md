@@ -1,26 +1,22 @@
 # Contrato de repositorio (interfaces)
 
+Las interfaces en `domain/repository/` definen cómo deben comportarse los repositorios.
+
 ## IUserRepository
-Definición (archivo): `domain/repository/IUserRepository.py`
-
-- add_user(user) -> bool
-  - Añade un `User` al almacenamiento.
-  - Devuelve `True` si se añadió correctamente.
-
-- get_user_by_username(username) -> User | None
-  - Recupera un `User` por su `username`.
+- `add_user(user: User) -> bool`
+  - Inserta un usuario en el almacenamiento.
+  - Retorna `True` si se añadió con éxito.
+- `get_user_by_username(username: str) -> User | None`
+  - Busca un usuario por su nombre de usuario.
   - Devuelve `None` si no existe.
 
 ## IClockRepository
-Definición (archivo): `domain/repository/IClockRepository.py`
+- `add_clock(clock: Clock) -> bool`
+  - Añade un registro de fichaje para el usuario.
+- `get_clocks_by_user(user_id: str) -> list[Clock] | None`
+  - Devuelve la lista de fichajes asociados a `user_id`.
+- `create_clocks(user_id: str) -> bool` *(sujeta a corrección)*
+  - Inicializa la entrada `user_id` con una lista vacía en la tabla de fichajes.
 
-- add_clock(clock: Clock) -> bool
-  - Añade un `Clock` a la lista de fichajes del usuario.
-
-- get_clocks_by_user(user_id) -> list[Clock] | None
-  - Obtiene la lista de fichajes asociada a `user_id`.
-
-- create_clocks(clock: Clock) -> bool
-  - Inicializa la lista de fichajes para un usuario.
-
-> Observación: la firma de `create_clocks` en la interfaz actualmente espera un `Clock` pero en el `AddClockHandler` se pasa `user_id` (string). Esto puede causar inconsistencias; ver `docs/TROUBLESHOOTING.md` para la recomendación de corrección.
+>Nota: la implementación actual en `ClockRepository` y su uso en `AddClockHandler` no coinciden exactamente
+(siempre se pasa el `user_id`). Se recomienda ajustar la interfaz para evitar errores. Ver `TROUBLESHOOTING.md`.

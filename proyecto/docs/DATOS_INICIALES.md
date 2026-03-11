@@ -1,15 +1,10 @@
 # Datos iniciales
 
-La aplicación usa una DB en memoria (`infrastructure/db.py`) que se inicializa como Singleton.
+El sistema utiliza un almacenamiento en memoria definido en `infrastructure/db.py` o en `db_tests.py` para los tests.
+Al iniciar, se crea un usuario administrador de referencia y la estructura de fichajes vacía.
 
-## Usuario por defecto
-- `id`: 6d976e5f-85ab-4bce-8c0f-aa9270eaa308
-- `username`: `admin`
-- `password`: `1234`
-- `rol`: `ADMIN` (valor numérico `1`)
+- Usuario `admin` con contraseña `1234` y rol ADMIN (valor numérico `1`).
+- El diccionario `users` contiene al menos la entrada `{'admin': <User objeto>}`.
+- El diccionario `clocks` se inicializa con la clave del admin apuntando a una lista vacía (`{'<admin-id>': []}`).
 
-## Estructuras iniciales
-- `users` contiene al usuario `admin`.
-- `clocks` contiene la clave del `admin` con lista vacía: `{ '<admin-id>': [] }`.
-
-> Nota: Los datos están en memoria y **no** se persisten entre ejecuciones.
+> Todos los datos se pierden al terminar la ejecución porque no hay persistencia externa.

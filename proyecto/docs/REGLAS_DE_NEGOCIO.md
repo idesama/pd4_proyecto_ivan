@@ -1,15 +1,16 @@
 # Reglas de negocio
 
-- Rol ADMIN obligatorio para crear nuevos usuarios.
-- El `username` debe ser único: `AddUserHandler` evita duplicados llamando a `get_user_by_username`.
-- El sistema permite hasta **3 intentos** de login (ver `presentation/menu.py`).
-- Si al fichar un usuario no tiene aún una lista de fichajes, se crea la estructura antes de añadir el primer registro (comportamiento esperado: `create_clocks`).
-- Si el rol introducido al crear usuario no es `1` (ADMIN), se asigna `USER` por defecto.
-- `Clock.date` se almacena en UTC (`datetime.now(timezone.utc)`).
+- Solo un usuario con rol `ADMIN` puede crear otros usuarios o buscarlos.
+- Cada `username` debe ser único; intentar crear con un nombre existente produce un `ValueError` y el handler devuelve `False`.
+- Los intentos de login se limitan a tres por ejecución; al agotarlos la aplicación finaliza.
+- Cuando se registra un fichaje, si el usuario no tiene todavía una lista en la tabla `clocks`, el repositorio inicializa una lista vacía mediante `create_clocks`.
+- Si el rol pasado al crear un usuario no es igual a `'1'`, el sistema asigna automáticamente el valor `2` (`USER`).
+- Los timestamps de fichaje siempre se crean en UTC mediante `datetime.now(timezone.utc)`.
 
----
-Valores enumerados:
-- `TYPE_CLOCK.IN` = entrada
-- `TYPE_CLOCK.OUT` = salida
+**Enumeraciones usadas**
+- `USER_ROL.ADMIN.value` = 1  (administrador)
+- `USER_ROL.USER.value` = 2   (usuario normal)
+- `TYPE_CLOCK.IN.value` = 1   (entrada)
+- `TYPE_CLOCK.OUT.value` = 2  (salida)
 
-Archivos relevantes: `application/*_handler.py`, `domain/constants/*`, `infrastructure/*_repository.py`.
+> Nota: el servicio de dominio hace gran parte de la validación, pero los handlers manejan los resultados y errores.

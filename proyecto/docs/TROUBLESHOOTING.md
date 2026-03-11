@@ -1,32 +1,28 @@
 # Troubleshooting (problemas comunes y soluciones) ⚠️
 
-## Credenciales incorrectas / límites de intentos
-- Síntoma: Mensaje "Credenciales incorrectas" y bloqueo tras 3 intentos.
-- Causa: Usuario/contraseña erróneos.
-- Solución: Usar el usuario por defecto `admin` / `1234` o crear un nuevo usuario desde una sesión ADMIN.
+### Credenciales incorrectas / límites de intentos
+- **Síntoma:** "Credenciales incorrectas" y bloqueo tras 3 intentos.
+- **Causa:** Usuario o contraseña erróneos.
+- **Solución:** Usar `admin`/`1234` o crear otro usuario desde una sesión ADMIN.
 
-## Error al crear/listar fichajes (KeyError / AttributeError)
-- Síntoma: Excepción al intentar crear o listar fichajes.
-- Causa probable: Inconsistencia entre la firma de `create_clocks` en `IClockRepository`/`ClockRepository` y el uso en `AddClockHandler` (se pasa `user_id` cuando la implementación espera un `Clock`).
-- Solución recomendada:
-  1. Cambiar la firma de `create_clocks` a `create_clocks(user_id: str) -> bool` en `IClockRepository` y `ClockRepository`.
-  2. Implementar `self.conection_db.clocks[user_id] = []` para inicializar la lista.
-  3. Alternativamente, en `AddClockHandler` pasar un objeto `Clock` compatible (menos recomendable).
+### Error al crear/listar fichajes
+- **Síntoma:** `KeyError` o lista vacía al agregar fichaje.
+- **Causa probable:** Desajuste entre la firma de `create_clocks` (la interfaz pide `user_id` pero algunos usos pasaban un `Clock`).
+- **Solución:** Ajustar la interfaz a `create_clocks(user_id: str)` y modificar `ClockRepository` y cualquier llamada.
 
-## Contraseñas en texto plano
-- Síntoma: Las contraseñas se almacenan sin hashing.
-- Riesgo: Seguridad baja; no apto para producción.
-- Corrección: Añadir hashing (por ejemplo `bcrypt`) en el handler o en `UserRepository`.
+### Contraseñas sin cifrar
+- **Síntoma:** Las contraseñas se ven en claro en memoria.
+- **Riesgo:** No apto para producción.
+- **Solución:** Integrar hashing con `bcrypt` o similar en `UserService`/`UserRepository`.
 
-## DB en memoria se pierde al reiniciar
-- Síntoma: Datos no aparecen después de reiniciar la app.
-- Causa: `DB` es un singleton en memoria sin persistencia.
-- Solución: Implementar persistencia (fichero, SQLite, o migrar a una base de datos real).
+### Pérdida de datos al reiniciar
+- **Síntoma:** Los usuarios o fichajes desaparecen tras cerrar la app.
+- **Causa:** El almacenamiento está en memoria y no se persiste.
+- **Solución:** Añadir persistencia (archivo, SQLite, etc.) o migrar a un motor real.
 
-## Mensajes de "Operacion no valida" en el menú
-- Síntoma: Al seleccionar opciones el menú responde "Operacion no valida".
-- Causa: Opción no permitida para el rol del usuario o input no esperado.
-- Solución: Revisar las opciones visibles para `user['rol']` y usar los números correctos; mejorar validación en `presentation/menu.py` si se desea UX más robusta.
+### Menú responde "Operacion no valida"
+- **Síntoma:** Opción no esperada en la selección.
+- **Causa:** Entrada fuera de rango o el rol no tiene permiso para esa función.
+- **Solución:** Verificar el número elegido y las opciones mostradas; la validación actual ignora roles.
 
----
-Si quieres, corrijo el problema de `create_clocks` y añado tests que validen el flujo de fichajes. ¿Quieres que lo haga ahora? 🔧
+> Puedo ayudarte a corregir los puntos anteriores y añadir tests que comprueben el comportamiento actualizado.

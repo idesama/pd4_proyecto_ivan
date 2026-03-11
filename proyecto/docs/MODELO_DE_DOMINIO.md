@@ -1,32 +1,31 @@
 # Modelo de dominio
 
-## Entidades principales
+## Entidades
 
 ### User
-- Atributos:
-  - `id: str` — UUID único.
-  - `username: str` — identificador único.
-  - `password: str` — contraseña en texto (actualmente sin hashing).
-  - `rol: int` — valor tomado de `USER_ROL` (1=ADMIN, 2=USER).
-  - `active: bool` — indica si el usuario está activo.
-  - `clocks: dict` — mapeo user_id -> lista de `Clock`.
-- Archivo: `domain/entities/user.py`
-- Método utilitario: `get_dto()` desde `IBaseEntity` para representación serializable.
+- `id: str` — UUID generado por `uuid4()`.
+- `username: str` — nombre único usado para login.
+- `password: str` — contraseña sin cifrar (se recomienda hashing en el futuro).
+- `rol: int` — valor de `USER_ROL` (`1`=ADMIN, `2`=USER).
+- `active: bool` — flag de activación (actualmente siempre `True`).
+- `clocks: dict` — estructura usada en el repositorio de pruebas, no esencial para el dominio en sí.
+
+El método `get_dto()` en `base_entity.py` devuelve un diccionario con los campos para presentación.
 
 ### Clock
-- Atributos:
-  - `id_user: str` — identificador del usuario.
-  - `date: datetime` — timestamp UTC del fichaje.
-  - `type: TYPE_CLOCK` — entrada/salida.
-- Archivo: `domain/entities/clock.py`
+- `id: str` — UUID del fichaje.
+- `id_user: str` — referencia al usuario.
+- `date: datetime` — fecha-hora UTC del fichaje.
+- `type: int` — valor de `TYPE_CLOCK` (`1`=IN, `2`=OUT).
 
-## Servicios de dominio
-- `UserService` con lógica básica de creación (en `domain/user_service.py`), aunque gran parte de la lógica está en handlers.
+## Servicios
 
-## Interfaces de repositorio
-- `IUserRepository` y `IClockRepository` definen el contrato que deben implementar los repositorios.
+- `UserService` (en `domain/user_service.py`) valida datos al crear usuarios y asigna roles.
+- `ClockService` crea objetos `Clock` y gestiona la inicialización de listas en la DB de prueba.
 
----
-Notas:
-- Actualmente la contraseña se almacena en texto; para producción debe aplicarse hashing.
-- `get_dto()` proviene de `domain/entities/base_entity.py` (usa `dataclasses.asdict`).
+## Interfaces
+
+- `IUserRepository` define `add_user` y `get_user_by_username`.
+- `IClockRepository` define `add_clock`, `get_clocks_by_user` y `create_clocks`.
+
+> Estas interfaces permiten sustituir fácilmente la implementación en `infrastructure`.

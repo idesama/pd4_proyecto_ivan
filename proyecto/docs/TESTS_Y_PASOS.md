@@ -1,34 +1,39 @@
 # Tests y pasos de verificación
 
 ## Estado actual
-- La carpeta `proyecto/tests/` existe pero está vacía (no hay tests automatizados todavía).
+- La carpeta `proyecto/tests/` contiene ya una suite basada en `unittest` (`tests_user.py`) que cubre:
+  - Creación de usuario con `AddUserHandler`.
+  - Comprobación de duplicados.
+  - Búsqueda de usuario con `GetUserHandler`.
+  - Comportamiento del servicio al crear sin rol.
+- Para la base de datos en pruebas se utiliza `infrastructure/db_tests.py`.
 
-## Pruebas manuales rápidas (smoke tests)
-1. Iniciar la app:
-   - `cd proyecto`
-   - `python main.py`
-2. Login con credenciales iniciales: `admin` / `1234`.
-3. Crear un usuario nuevo (opción 1 del menú) — sólo admin.
-4. Cerrar sesión y entrar con el usuario creado.
-5. Intentar fichar (entrada/salida) y listar fichajes.
+## Ejecución de pruebas
+Desde la raíz del proyecto:
 
-## Ejecución de tests automatizados (recomendación)
-- Añadir `pytest` a `requirements.txt` y escribir tests en `proyecto/tests/`.
-- Ejecutar:
-  ```bash
-  cd proyecto
-  pytest -q
-  ```
+```bash
+cd proyecto
+python3 -m unittest discover -v
+```
 
-## Casos de test recomendados
-- Login correcto / incorrecto / límites de intentos (3).
-- Crear usuario duplicado (debe fallar).
-- Fichaje: crear y listar fichajes por usuario.
-- Repositorios en memoria: añadir/recuperar usuarios y fichajes.
+También se puede instalar `pytest` y ejecutar los mismos ficheros:
 
-## Ejemplo básico de test (sugerido)
-- Archivo: `proyecto/tests/test_user_repository.py`
-- Comprobar que `UserRepository.add_user` almacena el usuario y `get_user_by_username` lo recupera.
+```bash
+pip install pytest
+pytest tests/
+```
 
----
-Si quieres, puedo añadir una suite inicial de `pytest` con ejemplos para los handlers y repositorios.
+## Pasos manuales rápidos
+1. `cd proyecto && python main.py`
+2. Iniciar sesión con `admin`/`1234`.
+3. Crear un usuario y comprobar que no se permita duplicados.
+4. Fichar y listar fichajes para el usuario actual.
+5. Probar el límite de 3 intentos de login.
+
+## Recomendaciones para nuevos tests
+- Convertir los tests existentes a `pytest` y añadir más casos:
+  - Validación de login (correcto/incorrecto/límites).
+  - Fichajes y flujo de `create_clocks`.
+  - Interacción entre servicios, handlers y repositorios.
+
+> Si necesitas, puedo ayudarte a añadir una suite inicial de `pytest`.

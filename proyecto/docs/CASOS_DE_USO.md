@@ -1,35 +1,40 @@
 # Casos de uso principales
 
 ## 1) Login
-- Actor: Usuario
-- Precondición: Usuario existe en la DB (por ejemplo `admin`).
-- Flujo principal:
-  1. Usuario introduce `username` y `password` en la consola.
-  2. `LoginHandler` valida credenciales usando `UserRepository`.
-  3. Si las credenciales son correctas, se muestra el menú correspondiente al rol.
-- Postcondición: Sesión iniciada (acceso al menú).
+- **Actor:** cualquier usuario registrado.
+- **Precondición:** el usuario existe en el repositorio.
+- **Flujo principal:**
+  1. El usuario introduce `username` y `password` en la consola.
+  2. `LoginHandler` consulta `UserRepository` y compara la contraseña.
+  3. Si las credenciales son correctas se recupera el objeto `User` y se despliega el menú adecuado según su rol.
+  4. Si fallan, el sistema permite hasta 3 intentos antes de bloquear.
+- **Postcondición:** sesión iniciada o bloqueo tras 3 fallos.
 
-## 2) Crear usuario (solo ADMIN)
-- Actor: Administrador
-- Precondición: El usuario es ADMIN.
-- Flujo principal:
-  1. Seleccionar opción "Añadir nuevo usuario".
-  2. Introducir `nombre`, `contraseña` y `rol` (1=admin, 2=usuario).
-  3. `AddUserHandler` valida unicidad y delega a `UserRepository.add_user`.
-- Postcondición: Nuevo usuario creado en la DB en memoria.
+## 2) Crear usuario (ADMIN exclusivo)
+- **Actor:** usuario con rol ADMIN.
+- **Precondición:** sesión iniciada como ADMIN.
+- **Flujo principal:**
+  1. El administrador elige la opción "Añadir nuevo usuario".
+  2. Introduce el nombre, la contraseña y el rol (`1` para ADMIN, cualquier otro valor se interpreta como USER).
+  3. Se construye un `CreateUserCommand` y `AddUserHandler` lo procesa: valida que no exista otro usuario con el mismo nombre y delega a `UserService` para crear la entidad.
+  4. El repositorio guarda el nuevo `User` en memoria.
+- **Postcondición:** el nuevo usuario queda disponible para el login.
 
-## 3) Fichar (entrada/salida)
-- Actor: Usuario autenticado
-- Flujo principal:
-  1. Usuario elige la opción de fichar (entrada/salida) en el menú.
-  2. `AddClockHandler` crea una entidad `Clock` con `date` UTC y la guarda en `ClockRepository`.
-- Postcondición: Nuevo registro de fichaje asociado al usuario.
+## 3) Fichar entrada/salida
+- **Actor:** cualquier usuario autenticado.
+- **Precondición:** sesión activa.
+- **Flujo principal:**
+  1. El usuario selecciona la opción de fichar en el menú.
+  2. Se genera automáticamente un `Clock` con la fecha UTC y tipo de fichaje (`TYPE_CLOCK.IN` o `TYPE_CLOCK.OUT`).
+  3. `AddClockHandler` se asegura de que exista una lista de fichajes en la DB (invoca `create_clocks` si no) y añade el registro.
+- **Postcondición:** registro de fichaje guardado.
 
-## 4) Listar fichajes de un usuario
-- Actor: Usuario autenticado (o admin buscando otro usuario)
-- Flujo principal:
-  1. Opción para listar fichajes → `GetUserClockHandler` solicita `get_clocks_by_user`.
-  2. Se muestra la lista de `Clock` (fechas y tipo).
+## 4) Consultar fichajes de un usuario
+- **Actor:** cualquier usuario autenticado (ADMIN puede ver su propio historial, la aplicación no soporta ver otro usuario actualmente).
+- **Flujo principal:**
+  1. El usuario elige la opción "mostrar fichajes".
+  2. `GetUserClockHandler` obtiene la lista desde el repositorio y se presentan los DTOs.
+- **Postcondición:** el historial de fichajes se imprime en pantalla.
 
 ---
-Referencia de implementación: `proyecto/presentation/menu.py`, `proyecto/application/*_handler.py`, `proyecto/infrastructure/*_repository.py`.
+*Implementación disponible en* `proyecto/presentation/menu.py` y las clases `*Handler` en `proyecto/application/`.

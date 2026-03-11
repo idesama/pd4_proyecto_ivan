@@ -1,15 +1,25 @@
 # Descripción y alcance
 
-## Descripción
-Aplicación de consola para la gestión de fichajes (entradas/salidas) de empleados. Permite crear usuarios con rol (admin/usuario), autenticar usuarios, registrar fichajes y listar los fichajes de un usuario.
+Programa de consola para la gestión de fichajes de usuarios. Incluye:
+
+- Autenticación (login) con nombre de usuario y contraseña.
+- Gestión de usuarios con roles (ADMIN / USER). Solo ADMIN puede crear y buscar usuarios.
+- Registro de fichajes (entrada o salida) con marca de tiempo UTC.
+- Listado de fichajes de un usuario.
+- Límite de 3 intentos de login.
 
 ## Alcance funcional
-- Autenticación (login) por usuario y contraseña.
-- Crear usuarios (sólo admin).
-- Registrar fichajes (entrada/salida).
-- Listar fichajes de un usuario.
 
-## Exclusiones / límites
-- No hay persistencia en BD relacional; la aplicación utiliza un repositorio en memoria (`infrastructure/db.py`).
-- No hay interfaz web ni API REST (solo consola).
-- Geolocalización y otras características avanzadas están fuera del alcance actual.
+- Interfaz únicamente por consola.
+- Repositorios en memoria (no persistente entre ejecuciones).
+- Contraseñas almacenadas en texto plano.
+- No existe API ni interfaz gráfica.
+
+## Exclusiones
+
+Elementos fuera del alcance actual:
+
+- Persistencia en bases de datos reales.
+- Cifrado de contraseñas.
+- Control de horarios (promedio, cálculo de jornada, etc.).
+- Funcionalidades de geolocalización o biometría.

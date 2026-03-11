@@ -1,32 +1,31 @@
 # Ejecución
 
-## Requisitos
-- Python 3.10+ recomendado.
+Paso a paso para iniciar y probar la aplicación.
 
-## Pasos para ejecutar (desde la raíz del repositorio)
-1. Abrir terminal y moverse al directorio `proyecto`:
+1. Abrir una terminal.
+2. Navegar al directorio principal:
+
    ```bash
    cd proyecto
    ```
-2. Ejecutar la aplicación:
+
+3. Ejecutar el módulo principal:
+
    ```bash
    python main.py
    ```
 
-## Usuario inicial (DB en memoria)
-- Usuario: `admin`
-- Contraseña: `1234`
+4. En la primera pantalla, ingresar credenciales. Por defecto existe el usuario `admin` con contraseña `1234`.
 
-> Nota: la base de datos es un singleton en memoria (`infrastructure/db.py`). Los datos no se persisten entre ejecuciones.
+5. Navegar por el menú según el rol:
 
-## Entorno de desarrollo (recomendado)
-- Crear un virtualenv y activar:
-  ```bash
-  python -m venv .venv
-  source .venv/bin/activate
-  pip install -r requirements.txt  # si hay dependencias
-  ```
+   - ADMIN puede crear usuarios, buscar usuarios, fichar y ver fichajes.
+   - Usuario estándar solo puede fichar y ver sus propios fichajes.
 
-## Siguientes pasos sugeridos
-- Añadir `pytest` y tests automatizados en `proyecto/tests/`.
-- Implementar persistencia real si se necesita conservación entre ejecuciones.
+6. Para ejecutar los tests incluidos:
+
+   ```bash
+   python3 -m unittest discover -v
+   ```
+
+Requisitos: Python 3.8 o superior. No se han definido dependencias externas en `requirements.txt`.
