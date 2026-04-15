@@ -12,5 +12,5 @@ class IClockRepository(ABC):
         pass
 
     @abstractmethod
-    def create_clocks(self, clock: Clock):
+    def create_clocks(self, id_user: str):
         pass

@@ -11,8 +11,8 @@ class ClockRepository(IClockRepository):
         self.conection_db.clocks[str(clock.id_user)].append(clock)
         return True
     
-    def create_clocks(self, clock: Clock):
-        self.conection_db.clocks[str(clock.id_user)] = []
+    def create_clocks(self, id_user: str):
+        self.conection_db.clocks[str(id_user)] = []
         return True
            
     def get_clocks_by_user(self, user_id):
