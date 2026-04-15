@@ -18,6 +18,19 @@ El método `get_dto()` en `base_entity.py` devuelve un diccionario con los campo
 - `date: datetime` — fecha-hora UTC del fichaje.
 - `type: int` — valor de `TYPE_CLOCK` (`1`=IN, `2`=OUT).
 
+### RequestBase
+- `id: str` — UUID de la solicitud.
+- `user_id: str` — referencia al usuario que hace la solicitud.
+
+### ClockInRequest
+- Hereda de `RequestBase`.
+- `clock: Clock` — el fichaje solicitado.
+
+### ClockCorrectionRequest
+- Hereda de `RequestBase`.
+- `clock: Clock` — el fichaje original.
+- `clock_update: Clock` — el fichaje corregido solicitado.
+
 ## Servicios
 
 - `UserService` (en `domain/user_service.py`) valida datos al crear usuarios y asigna roles.

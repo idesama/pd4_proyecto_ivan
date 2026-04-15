@@ -4,7 +4,7 @@ Programa de consola para la gestión de fichajes de usuarios. Incluye:
 
 - Autenticación (login) con nombre de usuario y contraseña.
 - Gestión de usuarios con roles (ADMIN / USER). Solo ADMIN puede crear y buscar usuarios.
-- Registro de fichajes (entrada o salida) con marca de tiempo UTC.
+- Registro de fichajes de entrada con marca de tiempo UTC.
 - Listado de fichajes de un usuario.
 - Límite de 3 intentos de login.
 

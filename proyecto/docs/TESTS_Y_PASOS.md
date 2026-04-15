@@ -1,11 +1,12 @@
 # Tests y pasos de verificación
 
 ## Estado actual
-- La carpeta `proyecto/tests/` contiene ya una suite basada en `unittest` (`tests_user.py`) que cubre:
+- La carpeta `proyecto/tests/` contiene ya una suite basada en `unittest` (`tests_user.py` y `tests_clocks.py`) que cubren:
   - Creación de usuario con `AddUserHandler`.
   - Comprobación de duplicados.
   - Búsqueda de usuario con `GetUserHandler`.
   - Comportamiento del servicio al crear sin rol.
+  - Tests para servicios de clock y repositorios.
 - Para la base de datos en pruebas se utiliza `infrastructure/db_tests.py`.
 
 ## Ejecución de pruebas

@@ -2,6 +2,14 @@
 
 Todas las versiones notables del proyecto.
 
+## [0.3.0] - 2026-04-15
+### Cambiado
+- Actualizada documentación para reflejar el código actual del proyecto.
+- Añadidas nuevas entidades de dominio: `RequestBase`, `ClockInRequest`, `ClockCorrectionRequest`.
+- Añadido nuevo comando `GetUserClocksRequest` con filtro.
+- Corregido caso de uso de fichaje: actualmente solo entrada, no salida.
+- Actualizado modelo de dominio y reglas de negocio.
+
 ## [0.2.0] - 2026-03-11
 ### Cambiado
 - Documentación completa regenerada para reflejar el funcionamiento actual.

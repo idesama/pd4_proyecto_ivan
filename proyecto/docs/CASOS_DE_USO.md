@@ -20,12 +20,12 @@
   4. El repositorio guarda el nuevo `User` en memoria.
 - **Postcondición:** el nuevo usuario queda disponible para el login.
 
-## 3) Fichar entrada/salida
+## 3) Fichar entrada
 - **Actor:** cualquier usuario autenticado.
 - **Precondición:** sesión activa.
 - **Flujo principal:**
   1. El usuario selecciona la opción de fichar en el menú.
-  2. Se genera automáticamente un `Clock` con la fecha UTC y tipo de fichaje (`TYPE_CLOCK.IN` o `TYPE_CLOCK.OUT`).
+  2. Se genera automáticamente un `Clock` con la fecha UTC y tipo de fichaje (`TYPE_CLOCK.IN`).
   3. `AddClockHandler` se asegura de que exista una lista de fichajes en la DB (invoca `create_clocks` si no) y añade el registro.
 - **Postcondición:** registro de fichaje guardado.
 

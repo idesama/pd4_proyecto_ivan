@@ -6,6 +6,7 @@
 - Cuando se registra un fichaje, si el usuario no tiene todavía una lista en la tabla `clocks`, el repositorio inicializa una lista vacía mediante `create_clocks`.
 - Si el rol pasado al crear un usuario no es igual a `'1'`, el sistema asigna automáticamente el valor `2` (`USER`).
 - Los timestamps de fichaje siempre se crean en UTC mediante `datetime.now(timezone.utc)`.
+- Actualmente, solo se permite fichar entrada (`TYPE_CLOCK.IN`); no hay opción para salida.
 
 **Enumeraciones usadas**
 - `USER_ROL.ADMIN.value` = 1  (administrador)
