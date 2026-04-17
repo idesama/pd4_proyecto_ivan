@@ -12,6 +12,8 @@ from application.get_user_handler import GetUserHandler
 from application.create_clock_handler import AddClockHandler
 from application.get_user_clocks_handler import GetUserClockHandler
 
+DB_PATH = ''
+
 def main(): 
     
     # instancio los repos
