@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 550" width="1200" height="550">
+  <defs>
+    <style>
+      .table-header { fill: #2c3e50; }
+      .pk-row { fill: #fff9e6; stroke: #ddd; stroke-width: 1; }
+      .fk-row { fill: #ffe6e6; stroke: #ddd; stroke-width: 1; }
+      .normal-row { fill: #f8f8f8; stroke: #ddd; stroke-width: 1; }
+      .text-white { fill: white; font-weight: bold; font-size: 14px; }
+      .text-black { fill: black; font-size: 12px; font-family: 'Monaco', monospace; }
+      .rel-line { stroke: #3498db; stroke-width: 2.5; fill: none; }
+      .rel-label { fill: #2c3e50; font-size: 11px; font-weight: bold; }
+      .legend-label { fill: black; font-size: 12px; }
+    </style>
+    <marker id="arrow-end" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#3498db"/>
+    </marker>
+  </defs>
+
+  <text x="600" y="35" font-size="22" font-weight="bold" text-anchor="middle" fill="#2c3e50">
+    Sistema de Fichajes - Diagrama Relacional SQLite
+  </text>
+
+  <!-- USERS -->
+  <rect x="80" y="80" width="380" height="32" class="table-header"/>
+  <text x="270" y="102" text-anchor="middle" class="text-white">users</text>
+  <rect x="80" y="112" width="380" height="30" class="pk-row"/>
+  <text x="90" y="132" class="text-black">* id TEXT PRIMARY KEY (UUID)</text>
+  <rect x="80" y="142" width="380" height="30" class="normal-row"/>
+  <text x="90" y="162" class="text-black">username TEXT NOT NULL UNIQUE</text>
+  <rect x="80" y="172" width="380" height="30" class="normal-row"/>
+  <text x="90" y="192" class="text-black">password TEXT NOT NULL</text>
+  <rect x="80" y="202" width="380" height="30" class="normal-row"/>
+  <text x="90" y="222" class="text-black">rol INTEGER NOT NULL</text>
+  <rect x="80" y="232" width="380" height="30" class="normal-row"/>
+  <text x="90" y="252" class="text-black">active INTEGER NOT NULL</text>
+
+  <!-- CLOCKS -->
+  <rect x="680" y="80" width="440" height="32" class="table-header"/>
+  <text x="900" y="102" text-anchor="middle" class="text-white">clocks</text>
+  <rect x="680" y="112" width="440" height="30" class="pk-row"/>
+  <text x="690" y="132" class="text-black">* id TEXT PRIMARY KEY (UUID)</text>
+  <rect x="680" y="142" width="440" height="30" class="fk-row"/>
+  <text x="690" y="162" class="text-black">id_user TEXT NOT NULL (FK -&gt; users)</text>
+  <rect x="680" y="172" width="440" height="30" class="normal-row"/>
+  <text x="690" y="192" class="text-black">date TEXT NOT NULL (ISO 8601)</text>
+  <rect x="680" y="202" width="440" height="30" class="normal-row"/>
+  <text x="690" y="222" class="text-black">type INTEGER NOT NULL (1=IN, 0=OUT)</text>
+
+  <!-- RELACIÓN -->
+  <path d="M 460 180 Q 570 180 680 180" class="rel-line" marker-end="url(#arrow-end)"/>
+  <text x="570" y="160" text-anchor="middle" class="rel-label">1:N</text>
+
+  <!-- LEYENDA -->
+  <rect x="80" y="360" width="1040" height="155" fill="#f0f0f0" stroke="#999" stroke-width="1" rx="5"/>
+  <text x="600" y="385" text-anchor="middle" font-size="15" font-weight="bold" fill="#2c3e50">Leyenda</text>
+  <rect x="100" y="400" width="20" height="20" class="pk-row" stroke="#333" stroke-width="1"/>
+  <text x="130" y="415" class="legend-label">* PK (identifica fila)</text>
+  <rect x="100" y="430" width="20" height="20" class="fk-row" stroke="#333" stroke-width="1"/>
+  <text x="130" y="445" class="legend-label">FK (vincula a otra tabla)</text>
+  <text x="400" y="415" class="legend-label">1:N = Una a muchos (un usuario tiene muchos fichajes)</text>
+  <text x="400" y="445" class="legend-label">Se recomienda índices en clocks(id_user) y clocks(date)</text>
+  <text x="400" y="475" class="legend-label">para acelerar consultas por usuario y rango temporal.</text>
+  <text x="100" y="490" class="legend-label">Tablas: users (usuarios del sistema) y clocks (fichajes de entrada/salida).</text>
+</svg>
