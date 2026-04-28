@@ -106,7 +106,7 @@ if __name__ == "__main__":
 - Cuando el handler lanza `ValueError` (usuario no encontrado, etc.) se captura y se devuelve
   una tupla `(mensaje, código)`: `return str(e), 404` o `return str(e), 400`.
 - Recuerda convertir `datetime` y `Enum` a texto antes de devolverlos en la respuesta
-  (ver sección "Puntos de atención" → Fechas y enumerados).
+  (ver sección "Advertencias" → Fechas y enumerados).
 
 ---
 
@@ -129,7 +129,7 @@ requiere funcionalidad adicional que todavía no existe:
 
 ---
 
-## Puntos de atención
+## Advertencias
 
 ### Persistencia en memoria (`DB` — objeto único compartido)
 
