@@ -2,6 +2,7 @@ from presentation.menu import init_menu
 # repositories
 from infrastructure.user_repository import UserRepository
 from infrastructure.clock_repository import ClockRepository
+from infrastructure.db_sqlite import DB_sqlite, ENVIRONMENT
 # domain services
 from domain.user_service import UserService
 from domain.clock_service import ClockService
@@ -12,9 +13,14 @@ from application.get_user_handler import GetUserHandler
 from application.create_clock_handler import AddClockHandler
 from application.get_user_clocks_handler import GetUserClockHandler
 
-DB_PATH = ''
 
 def main(): 
+
+
+    database = DB_sqlite(ENVIRONMENT.PRODUCTION)
+    database.init_db()
+    conn = database.get_conn()
+    
     
     # instancio los repos
     user_repository = UserRepository()

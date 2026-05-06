@@ -1,12 +1,28 @@
 """Script para crear la base de datos de Fichajes con datos iniciales."""
 import sqlite3
 import os
+from enum import Enum
+
+
+# TODO Movelo a otro lado
+class ENVIRONMENT(Enum):
+    TEST = 0
+    PRODUCTION = 1
+
 
 class DB_sqlite:
 
-    def __init__(self, path_db:str):
-        self.path_db = path_db
-        
+    # TODO Pasar esto a un archivo de configuración json y cargarlo 
+    PATH_PRODUCTION = './DB_PRO'
+    PATH_TEST = './DB_TEST'
+
+
+    def __init__(self, enviroment:ENVIRONMENT):
+        self.enviroment = enviroment
+        self.path_db = self.PATH_PRODUCTION
+        if self.enviroment == ENVIRONMENT.TEST:
+            self.path_db == self.PATH_PRODUCTION
+  
 
     def db_exist(self)->bool:
         return os.path.exists(self.path_db)
@@ -17,6 +33,36 @@ class DB_sqlite:
             return sqlite3.connect(self.path_db).cursor()
         # TODO devolver excepcion personalizada
 
+
+    def execute_crud(self, query:str):
+        if not self.db_exist():
+            try:
+                with sqlite3.connect(self.path_db) as conn:
+        
+                    sql_blacklist = [
+                        'CREATE',
+                        'DROP',
+                        'DELETE',
+                        'OR 1=1'
+                        '--'
+                    ]
+
+                    for blacky in sql_blacklist:
+                        if blacky in query.strip().upper():
+                            raise Exception
+
+        
+                    conn.row_factory = sqlite3.Row
+                    cursor = conn.cursor()       
+                    cursor.execute(query)
+                
+                    if query.strip().upper().startswith("SELECT"):
+                       return cursor.fetchall()
+
+                    conn.commit()
+                    
+            except Exception as ex:
+                print(ex)
 
     def init_db(self):
         if not self.db_exist():
