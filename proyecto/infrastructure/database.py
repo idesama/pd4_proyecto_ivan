@@ -4,23 +4,20 @@ import os
 from enum import Enum
 
 
-# TODO Movelo a otro lado
-class ENVIRONMENT(Enum):
-    TEST = 0
-    PRODUCTION = 1
+class Database:
 
-
-class DB_sqlite:
+    class ENVIRONMENT(Enum):
+        TEST = 0
+        PRODUCTION = 1
 
     # TODO Pasar esto a un archivo de configuración json y cargarlo 
     PATH_PRODUCTION = './DB_PRO'
     PATH_TEST = './DB_TEST'
 
-
     def __init__(self, enviroment:ENVIRONMENT):
         self.enviroment = enviroment
         self.path_db = self.PATH_PRODUCTION
-        if self.enviroment == ENVIRONMENT.TEST:
+        if self.enviroment == self.ENVIRONMENT.TEST:
             self.path_db == self.PATH_PRODUCTION
   
 
@@ -28,14 +25,8 @@ class DB_sqlite:
         return os.path.exists(self.path_db)
 
 
-    def get_conn(self):
+    def execute_wrapper(self, query:str, data:tuple)->list[tuple]:
         if self.db_exist():
-            return sqlite3.connect(self.path_db).cursor()
-        # TODO devolver excepcion personalizada
-
-
-    def execute_crud(self, query:str):
-        if not self.db_exist():
             try:
                 with sqlite3.connect(self.path_db) as conn:
         
@@ -47,24 +38,27 @@ class DB_sqlite:
                         '--'
                     ]
 
+                    # filtro para blacklist
                     for blacky in sql_blacklist:
                         if blacky in query.strip().upper():
                             raise Exception
-
-        
-                    conn.row_factory = sqlite3.Row
+   
                     cursor = conn.cursor()       
-                    cursor.execute(query)
+                    cursor.execute(query, data)
                 
                     if query.strip().upper().startswith("SELECT"):
                        return cursor.fetchall()
 
                     conn.commit()
+                    return [(cursor.rowcount,)]
                     
             except Exception as ex:
                 print(ex)
+        else:
+            print('La base de datos no existe.')
 
-    def init_db(self):
+
+    def db_up(self):
         if not self.db_exist():
             try:
                 with sqlite3.connect(self.path_db) as conn:

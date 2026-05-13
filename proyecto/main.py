@@ -2,7 +2,7 @@ from presentation.menu import init_menu
 # repositories
 from infrastructure.user_repository import UserRepository
 from infrastructure.clock_repository import ClockRepository
-from infrastructure.db_sqlite import DB_sqlite, ENVIRONMENT
+from proyecto.infrastructure.database import Database
 # domain services
 from domain.user_service import UserService
 from domain.clock_service import ClockService
@@ -17,13 +17,12 @@ from application.get_user_clocks_handler import GetUserClockHandler
 def main(): 
 
 
-    database = DB_sqlite(ENVIRONMENT.PRODUCTION)
-    database.init_db()
-    conn = database.get_conn()
+    db_prod = Database(Database.ENVIRONMENT.PRODUCTION)
+    db_prod.db_up()
     
-    
+
     # instancio los repos
-    user_repository = UserRepository()
+    user_repository = UserRepository(db_prod)
     clock_repository = ClockRepository()
     
     # instancio los servicios de dominio
@@ -31,7 +30,7 @@ def main():
     clock_service = ClockService(clock_repository)
 
     # instancio los handlers con sus respectivos repos y servicios de dominio
-    login_handler = LoginHandler(UserRepository())
+    login_handler = LoginHandler(user_repository)
     add_user_handler = AddUserHandler(user_repository, user_service)
     get_user_handler = GetUserHandler(UserRepository())
     add_clock_handler = AddClockHandler(clock_repository, clock_service)
